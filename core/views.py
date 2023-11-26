@@ -479,10 +479,39 @@ def downloadreport(request):
                 "General Advice : " + report_data.DoctorGeneralAdvice
             ]
 
+
+            
+
         # Loop
+
+       
+
+        buf = io.BytesIO()
+        c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+
+        
+        textob = c.beginText()
+        textob.setTextOrigin(4*inch, 1.5*inch)  # Adjust the starting point for the title
+        textob.setFont("Helvetica", 18)
+
+        # Add Title
+        title = "Med AI"
+        textob.textLine(title)
+
+        textob.setTextOrigin(1*inch, 3*inch)  # Adjust the starting point for the report content
+        textob.setFont("Helvetica", 14)
 
         for line in lines:
             textob.textLine(line)
+            textob.textLine("\n")
+        
+        # # Add Borders
+        # c.setStrokeColorRGB(0, 0, 0)  # Black color
+        # c.setLineWidth(2)  # Border width
+        # c.rect(1*inch, 1*inch, 6.5*inch, 9*inch)  # Adjust the rectangle dimensions as needed
+        # textob = c.beginText()
+        # textob.setTextOrigin(2*inch, 9*inch)  # Adjust the starting point for the title
+        # textob.setFont("Helvetica", 18)
 
         c.drawText(textob)
         c.showPage()
